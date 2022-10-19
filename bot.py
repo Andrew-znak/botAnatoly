@@ -1,7 +1,7 @@
-from dis import dis
 import logging, os
 
-from telegram import Update, ForceReply
+from PIL import Image, ImageFont, ImageDraw 
+from telegram import Update, ForceReply, File
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
 # Enable logging
@@ -26,9 +26,27 @@ def help_command(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('Help!')
 
 
-def change_image(update: Update, context: CallbackContext) -> None:
-    """Changing image"""
-     
+def get_image(update: Update, context: CallbackContext) -> None:
+    """Download image to the file image"""
+    file_id = update.message.photo[-1].file_id
+    context.bot.get_file(file_id).download('temp/test.jpg')
+    print('File downloaded successfully')
+    change_image()
+    
+    context.bot.send_photo(update.message.chat_id,photo=open('temp/result.jpg', 'rb'))
+    
+    os.remove('temp/test.jpg')
+    os.remove('temp/result.jpg')
+
+def change_image():
+    """Add text to the image"""
+    image = Image.open('temp/test.jpg')
+    title_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 30)
+    title_text = "Я Толик и мне очень грустно"
+    image_editable = ImageDraw.Draw(image)
+    image_editable.text((15,15), title_text, (237, 230, 211), font=title_font)
+    image.save('temp/result.jpg')
+
 
 
 def main() -> None:
@@ -39,19 +57,12 @@ def main() -> None:
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
 
-    # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("help", help_command))
-
-    # on non command i.e message - echo the message on Telegram
-    dispatcher.add_handler(MessageHandler((Filters.photo & Filters.caption_regex(r'^[Тт]олик$')) | (Filters.reply & Filters.regex(r'^[Тт]олик$')), change_image))
-
+    dispatcher.add_handler(MessageHandler((Filters.reply & Filters.regex(r'^[Тт]олик$')) | (Filters.photo & Filters.caption_regex(r'^[Тт]олик$')) , get_image))
     # Start the Bot
     updater.start_polling()
 
-    # Run the bot until you press Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
     updater.idle()
 
 
