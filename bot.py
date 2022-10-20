@@ -1,5 +1,5 @@
 import logging, os
-import image
+import image, phrases
 
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
@@ -34,9 +34,9 @@ def get_image(update: Update, context: CallbackContext) -> None:
 
 def main() -> None:
     updater = Updater(os.environ['BOT_TOKEN'])
-
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
+    phrases.read_phrases()
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("help", help_command))
     dispatcher.add_handler(MessageHandler((Filters.reply & Filters.regex(r'^[Тт]олик$')) | (Filters.photo & Filters.caption_regex(r'^[Тт]олик$')) , get_image))
