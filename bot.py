@@ -1,5 +1,8 @@
+from asyncore import read
 import logging, os
 
+from io import BytesIO
+from tabnanny import filename_only
 from PIL import Image, ImageFont, ImageDraw 
 from telegram import Update, ForceReply, File
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
@@ -27,27 +30,24 @@ def help_command(update: Update, context: CallbackContext) -> None:
 
 
 def get_image(update: Update, context: CallbackContext) -> None:
-    """Download image to the file image"""
-    file_id = update.message.photo[-1].file_id
-    context.bot.get_file(file_id).download('temp/test.jpg')
-    print('File downloaded successfully')
-    change_image()
-    
-    context.bot.send_photo(update.message.chat_id,photo=open('temp/result.jpg', 'rb'))
-    
-    os.remove('temp/test.jpg')
-    os.remove('temp/result.jpg')
+    """Download image to the bytearray"""
+    file = context.bot.get_file(update.message.photo[-1].file_id)
+    f = BytesIO(file.download_as_bytearray())
+    final_image = (change_image(f))
+    context.bot.send_photo(chat_id=update.message.chat_id,photo=final_image.getvalue())
 
-def change_image():
+
+def change_image(img: BytesIO):
     """Add text to the image"""
-    image = Image.open('temp/test.jpg')
+    image = Image.open(img)
+    img_byte_array = BytesIO()
     title_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 30)
     title_text = "Я Толик и мне очень грустно"
     image_editable = ImageDraw.Draw(image)
     image_editable.text((15,15), title_text, (237, 230, 211), font=title_font)
-    image.save('temp/result.jpg')
-
-
+    image.save(img_byte_array, format='JPEG')
+    return img_byte_array
+    
 
 def main() -> None:
     """Start the bot."""
