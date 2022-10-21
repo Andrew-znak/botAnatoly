@@ -1,4 +1,4 @@
-import logging, os, re
+import logging, os
 import image, phrases
 
 from telegram import Update, ForceReply
@@ -11,15 +11,15 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-
+"""
 def start(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /start is issued."""
+    Send a message when the command /start is issued
     user = update.effective_user
     update.message.reply_markdown_v2(
         fr'Hi {user.mention_markdown_v2()}\!',
         reply_markup=ForceReply(selective=True),
     )
-
+"""
 
 def get_image(update: Update, context: CallbackContext) -> None:
     """Download image to the bytearray"""
@@ -37,7 +37,6 @@ def main() -> None:
     updater = Updater(os.environ['BOT_TOKEN'])
     dispatcher = updater.dispatcher
     phrases.read_phrases()
-    dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(MessageHandler(Filters.photo & Filters.caption_regex(r'^[Тт]олик$'), get_image))
     dispatcher.add_handler(MessageHandler((Filters.reply & Filters.regex(r'^[Тт]олик$')), get_reply_image))
     # Start the Bot
