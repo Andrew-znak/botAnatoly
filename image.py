@@ -20,9 +20,5 @@ def change_image(img):
     text = textwrap.fill(text=text, width=max_char_count)
     image_editable.text(xy=(image.size[0]/2, image.size[1]-20), fill=(0,0,0), text=text, font=font, anchor='md')
     image_editable.text(xy=(image.size[0]/2+5, image.size[1]-25), fill=(255,255,255), text=text, font=font, anchor='md')
-
-    
-#   image_editable.text((20, image.height - 15), text, (0, 0, 0), font=font, anchor="ld")
-#   image_editable.text((15, image.height - 20), text, (255, 255, 255), font=font, anchor="ld")
     image.save(img_byte_array, format='JPEG')
     return img_byte_array

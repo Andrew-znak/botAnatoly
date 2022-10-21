@@ -1,5 +1,4 @@
 from random import choice
-import bot
 
 def read_phrases():
     global content_list
