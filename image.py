@@ -5,8 +5,8 @@ import phrases
 
 def change_image(img):
     """Add text to the image"""
-    width_ratio = 0.9
-    font_family = "DejaVuSans.ttf"
+    width_ratio = 0.8
+    font_family = "./font.ttf"
     text = phrases.get_phrase()
     img_byte_array = BytesIO()
     
@@ -16,14 +16,15 @@ def change_image(img):
     font = ImageFont.truetype(font_family, font_size)
     print(f"Font size found = {font_size} - Target ratio = {width_ratio} - Measured ratio = {get_text_size(text, image, font)[0] / image.width}")
     
-    image_editable.text((20, image.height - 20 - font_size), text, (255, 255, 255), font=font)
+    image_editable.text((20, image.height - 15), text, (0, 0, 0), font=font, anchor="ld")
+    image_editable.text((15, image.height - 20), text, (255, 255, 255), font=font, anchor="ld")
     image.save(img_byte_array, format='JPEG')
     return img_byte_array
 
 
 def get_text_size(text, image, font):
     im = Image.new('RGB', (image.width, image.height))
-    draw = ImageDraw.Draw(im)
+    draw = ImageDraw.Draw(im) 
     return draw.textsize(text, font)
 
 

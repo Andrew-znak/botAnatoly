@@ -35,7 +35,6 @@ def get_reply_image(update: Update, context: CallbackContext) -> None:
 
 def main() -> None:
     updater = Updater(os.environ['BOT_TOKEN'])
-    # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
     phrases.read_phrases()
     dispatcher.add_handler(CommandHandler("start", start))
