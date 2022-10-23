@@ -1,8 +1,8 @@
 import logging, os
 import image, phrases
 
-from telegram import Update, ForceReply
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram import Update
+from telegram.ext import Updater, MessageHandler, Filters, CallbackContext
 
 # Enable logging
 logging.basicConfig(
@@ -11,15 +11,6 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-"""
-def start(update: Update, context: CallbackContext) -> None:
-    Send a message when the command /start is issued
-    user = update.effective_user
-    update.message.reply_markdown_v2(
-        fr'Hi {user.mention_markdown_v2()}\!',
-        reply_markup=ForceReply(selective=True),
-    )
-"""
 
 def get_image(update: Update, context: CallbackContext) -> None:
     """Download image to the bytearray"""
