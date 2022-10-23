@@ -25,7 +25,7 @@ def get_reply_image(update: Update, context: CallbackContext) -> None:
     context.bot.send_photo(chat_id=update.message.chat_id,photo=final_image.getvalue())
 
 def main() -> None:
-    updater = Updater(os.environ['BOT_TOKEN'])
+    updater = Updater(os.environ['BOT_TEST_TOKEN'])
     dispatcher = updater.dispatcher
     phrases.read_phrases()
     dispatcher.add_handler(MessageHandler(Filters.photo & Filters.caption_regex(r'^[Тт]олик$'), get_image))
