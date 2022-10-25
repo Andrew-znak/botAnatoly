@@ -38,7 +38,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker stop $(docker ps -a -q)
-            docker rm $(docker ps -a -q)
+            docker rm -f $(docker ps -a -q)
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/bot_anatoly:latest
-            docker run --rm -d -e BOT_TOKEN=${{ secrets.PROD_BOT_TOKEN }} ${{ secrets.DOCKER_HUB_USERNAME }}/bot_anatoly:latest
+            docker run -d -e BOT_TOKEN=${{ secrets.PROD_BOT_TOKEN }} ${{ secrets.DOCKER_HUB_USERNAME }}/bot_anatoly:latest
