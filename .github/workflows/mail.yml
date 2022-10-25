@@ -36,7 +36,7 @@ jobs:
     steps: 
       -
         name: Deploy new container
-        uses: shimatro/ssh-key-action@v2
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_SERVER }}
           username: ${{ secrets.SSH_USER }}
