@@ -37,4 +37,4 @@ jobs:
           host: ${{ secrets.SSH_SERVER }}
           username: ${{ secrets.SSH_USER }}
           privatekey: ${{ secrets.SSH_PRIVATE_KEY }}
-          command: docker run -e BOT_TOKEN=${{ secrets.PROD_BOT_TOKEN }} ${{ secrets.DOCKER_HUB_USERNAME }}/bot_anatoly:latest --pull=always
+          command: docker run -e BOT_TOKEN=${{ secrets.PROD_BOT_TOKEN }} ${{ secrets.DOCKER_HUB_USERNAME }}/bot_anatoly:latest
