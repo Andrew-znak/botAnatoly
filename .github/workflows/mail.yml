@@ -30,3 +30,15 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/bot_anatoly:latest
+  
+  deploy:
+    runs-on: ubuntu-latest
+    steps: 
+      -
+        name: Deploy new container
+        uses: shimatro/ssh-key-action@v2
+        with:
+          host: ${{ secrets.SSH_SERVER }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: docker run ${{ secrets.DOCKER_HUB_USERNAME }}/bot_anatoly:latest --pull=always
