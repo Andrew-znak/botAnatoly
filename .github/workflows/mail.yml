@@ -40,4 +40,4 @@ jobs:
           script: |
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
-            docker run -rm -d -e BOT_TOKEN=${{ secrets.PROD_BOT_TOKEN }} ${{ secrets.DOCKER_HUB_USERNAME }}/bot_anatoly:latest
+            docker run --rm -d -e BOT_TOKEN=${{ secrets.PROD_BOT_TOKEN }} ${{ secrets.DOCKER_HUB_USERNAME }}/bot_anatoly:latest
