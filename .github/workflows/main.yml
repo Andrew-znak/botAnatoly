@@ -39,6 +39,7 @@ jobs:
           host: ${{ secrets.SSH_SERVER }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
           script: |
             docker rm -f $(docker ps -a -q)
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/bot_anatoly:latest
