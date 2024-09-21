@@ -41,6 +41,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            docker rm -f $(docker ps -a -q)
+            docker rm -f botAnatoly
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/bot_anatoly:latest
-            docker run -d -e BOT_TOKEN=${{ secrets.PROD_BOT_TOKEN }} ${{ secrets.DOCKER_HUB_USERNAME }}/bot_anatoly:latest
+            docker run -d -e BOT_TOKEN=${{ secrets.PROD_BOT_TOKEN }} --name botAnatoly ${{ secrets.DOCKER_HUB_USERNAME }}/bot_anatoly:latest
